@@ -35,7 +35,7 @@ java {
 
 graalvmNative.toolchainDetection = false
 micronaut {
-    runtime("lambda_java")
+    runtime("netty")
     testRuntime("junit5")
     nativeLambda {
         lambdaRuntimeClassName = "io.micronaut.function.aws.runtime.MicronautLambdaRuntime"
