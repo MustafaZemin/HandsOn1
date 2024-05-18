@@ -30,6 +30,6 @@ class HomeControllerTest {
         var response = handler.handleRequest(request, new MockLambdaContext());
 
         assertEquals(HttpStatus.OK.getCode(), response.getStatusCode());
-        assertEquals("{\"message\":\"Hello World New\"}",  response.getBody());
+        assertEquals("{\"message\":78}", response.getBody());
     }
 }

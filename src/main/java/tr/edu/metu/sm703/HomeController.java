@@ -9,6 +9,13 @@ public class HomeController {
 
     @Get
     public Map<String, Object> index() {
-        return Collections.singletonMap("message", "Hello World New");
+        int res = sum(29, 49);
+        //System.out.println(res);
+        return Collections.singletonMap("message", res);
+    }
+
+    public static int sum(int num1, int num2)
+    {
+        return num1+num2;
     }
 }
