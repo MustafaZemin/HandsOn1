@@ -9,7 +9,7 @@ public class HomeController {
 
     @Get
     public Map<String, Object> index() {
-        int res = ob.sum(28, 49);
+        int res = sum(28, 49);
         //System.out.println(res);
         return Collections.singletonMap("message", res);
     }
