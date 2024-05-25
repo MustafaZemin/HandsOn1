@@ -1,35 +1,42 @@
 package tr.edu.metu.sm703;
-import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
-import io.micronaut.function.aws.proxy.payload1.ApiGatewayProxyRequestEventFunction;
-import io.micronaut.function.aws.proxy.MockLambdaContext;
-import io.micronaut.http.HttpMethod;
-import io.micronaut.http.HttpStatus;
+import com.amazonaws.serverless.exceptions.ContainerInitializationException;
+import com.amazonaws.serverless.proxy.internal.testutils.MockLambdaContext;
+import com.amazonaws.serverless.proxy.model.AwsProxyRequest;
+import com.amazonaws.serverless.proxy.model.AwsProxyResponse;
+import com.amazonaws.services.lambda.runtime.Context;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import io.micronaut.function.aws.proxy.MicronautLambdaHandler;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class HomeControllerTest {
-    private static ApiGatewayProxyRequestEventFunction handler;
+public class HomeControllerTest {
+
+    private static MicronautLambdaHandler handler;
+    private static Context lambdaContext = new MockLambdaContext();
 
     @BeforeAll
-    static void setupSpec() {
-        handler = new ApiGatewayProxyRequestEventFunction();
+    public static void setupSpec() {
+        try {
+            handler = new MicronautLambdaHandler();
+        } catch (ContainerInitializationException e) {
+            e.printStackTrace();
+        }
     }
+
     @AfterAll
-    static void cleanupSpec() {
+    public static void cleanupSpec() {
         handler.getApplicationContext().close();
     }
 
     @Test
-    void testHandler() {
-        APIGatewayProxyRequestEvent request = new APIGatewayProxyRequestEvent();
+    void testHandler() throws JsonProcessingException {
+        AwsProxyRequest request = new AwsProxyRequest();
+        request.setHttpMethod("GET");
         request.setPath("/");
-        request.setHttpMethod(HttpMethod.GET.toString());
-        var response = handler.handleRequest(request, new MockLambdaContext());
-
-        assertEquals(HttpStatus.OK.getCode(), response.getStatusCode());
-        assertEquals("{\"message\":78}", response.getBody());
+        AwsProxyResponse response = handler.handleRequest(request, lambdaContext);
+        assertEquals(200, response.getStatusCode());
+        assertEquals("{\"body\":\"{\\\"message\\\", \\\"Hello AWS World\\\"}\",\"statusCode\":200}",  response.getBody());
     }
-}
