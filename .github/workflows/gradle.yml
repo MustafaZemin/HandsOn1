@@ -32,5 +32,5 @@ jobs:
     # sam build
       #- run: sam build --use-container
     - run: ls -lR /home/runner/work/HandsOn1/HandsOn1/
-    - run: sam build --template-file /home/runner/work/HandsOn1/HandsOn1/github-actions-with-aws-sam/template.yml
+    - run: sam build --template-file /home/runner/work/HandsOn1/HandsOn1/github-actions-with-aws-sam/template.yaml
     - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name sam-hello-world --s3-bucket awshandsonone --capabilities CAPABILITY_IAM --region eu-north-1
