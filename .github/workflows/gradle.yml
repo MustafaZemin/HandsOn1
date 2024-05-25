@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -33,6 +32,14 @@ jobs:
     - name: Run Tests
       run: ./gradlew test
 
+    - name: Install zip
+      run: sudo apt-get install -y zip
+
+    - name: Package Lambda Function
+      run: |
+        mkdir -p build/deployment
+        zip -j build/deployment/function.zip build/libs/*.jar
+
   deploy_dev:
     needs: build
     runs-on: ubuntu-latest
@@ -43,9 +50,14 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+
     - name: Deploy to Development
       run: |
-        aws lambda update-function-code --function-name my-function-dev --zip-file fileb://function.zip
+        aws lambda update-function-code --function-name my-function-dev --zip-file fileb://build/deployment/function.zip
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
 
   deploy_qa:
     needs: build
@@ -57,10 +69,15 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+
     - name: Deploy to QA
       if: github.ref == 'refs/heads/release/**'
       run: |
-        aws lambda update-function-code --function-name my-function-qa --zip-file fileb://function.zip
+        aws lambda update-function-code --function-name my-function-qa --zip-file fileb://build/deployment/function.zip
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
 
   deploy_prod:
     needs: build
@@ -72,7 +89,12 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+
     - name: Deploy to Production
       if: github.ref == 'refs/heads/master'
       run: |
-        aws lambda update-function-code --function-name my-function-prod --zip-file fileb://function.zip
+        aws lambda update-function-code --function-name my-function-prod --zip-file fileb://build/deployment/function.zip
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
