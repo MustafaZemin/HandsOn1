@@ -24,9 +24,6 @@ Resources:
       Runtime: python3.8
       Architectures:
         - x86_64
-      # Ensure the Role is defined and correctly referenced
-      Role: !GetAtt HelloWorldFunctionRoleDev.Arn
-      # Ensure the Role is defined and correctly referenced
       Role: !GetAtt HelloWorldFunctionRoleDev.Arn
       Events:
         HelloWorld:
@@ -35,7 +32,7 @@ Resources:
             Path: /hello
             Method: get
 
-    HelloWorldFunctionRoleDev:
+  HelloWorldFunctionRoleDev:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -60,9 +57,8 @@ Resources:
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
     Properties:
-        Name:
-        Fn::Sub: ApplicationInsights-SAM-${AWS::StackName}
-        ResourceQuery:
+      Name: !Sub ApplicationInsights-SAM-${AWS::StackName}
+      ResourceQuery:
         Type: CLOUDFORMATION_STACK_1_0
 
   ApplicationInsightsMonitoring:
@@ -76,9 +72,9 @@ Outputs:
   HelloWorldApi:
     Description: API Gateway endpoint URL for Dev stage for Hello World function
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Dev/hello/"
-  HelloWorldFunctionDev:
+  HelloWorldFunctionDevArn:
     Description: Hello World Lambda Function ARN
     Value: !GetAtt HelloWorldFunctionDev.Arn
-  HelloWorldFunctionRoleDev:
+  HelloWorldFunctionRoleDevArn:
     Description: IAM Role created for Hello World function in Dev
     Value: !GetAtt HelloWorldFunctionRoleDev.Arn
