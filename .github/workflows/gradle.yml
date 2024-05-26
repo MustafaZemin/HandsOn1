@@ -23,6 +23,22 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
+    - name: Install Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Verify Python Installation
+      run: python --version
+
+    - name: Set up Gradle
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: build
+
+    - name: Run tests
+      run: ./gradlew test
+      
     - uses: aws-actions/setup-sam@v1
     - uses: aws-actions/configure-aws-credentials@v1
       with:
