@@ -65,7 +65,9 @@ Resources:
   ApplicationInsightsMonitoring:
     Type: AWS::ApplicationInsights::Application
     Properties:
-      ResourceGroupName: !Ref ApplicationResourceGroup
+      ResourceGroupName:
+       	 Ref: ApplicationResourceGroup
+
       AutoConfigurationEnabled: 'true'
 
 Outputs:
