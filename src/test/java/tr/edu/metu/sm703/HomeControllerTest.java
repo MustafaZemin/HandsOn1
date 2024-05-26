@@ -1,42 +1,28 @@
 package tr.edu.metu.sm703;
-import com.amazonaws.serverless.exceptions.ContainerInitializationException;
-import com.amazonaws.serverless.proxy.internal.testutils.MockLambdaContext;
-import com.amazonaws.serverless.proxy.model.AwsProxyRequest;
-import com.amazonaws.serverless.proxy.model.AwsProxyResponse;
-import com.amazonaws.services.lambda.runtime.Context;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import io.micronaut.function.aws.proxy.MicronautLambdaHandler;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
+
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
+import io.micronaut.http.HttpRequest;
+import io.micronaut.http.HttpResponse;
+import io.micronaut.http.client.HttpClient;
+import io.micronaut.http.client.annotation.Client;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import jakarta.inject.Inject;
 
+@MicronautTest
 public class HomeControllerTest {
 
-    private static MicronautLambdaHandler handler;
-    private static Context lambdaContext = new MockLambdaContext();
-
-    @BeforeAll
-    public static void setupSpec() {
-        try {
-            handler = new MicronautLambdaHandler();
-        } catch (ContainerInitializationException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @AfterAll
-    public static void cleanupSpec() {
-        handler.getApplicationContext().close();
-    }
+    @Inject
+    @Client("/")
+    HttpClient client;
 
     @Test
-    void testHandler() throws JsonProcessingException {
-        AwsProxyRequest request = new AwsProxyRequest();
-        request.setHttpMethod("GET");
-        request.setPath("/");
-        AwsProxyResponse response = handler.handleRequest(request, lambdaContext);
-        assertEquals(200, response.getStatusCode());
-        assertEquals("{\"body\":\"{\\\"message\\\", \\\"Hello AWS World\\\"}\",\"statusCode\":200}",  response.getBody());
+    public void testHomeEndpoint() {
+        HttpRequest<String> request = HttpRequest.GET("/");
+        HttpResponse<String> response = client.toBlocking().exchange(request, String.class);
+
+        Assertions.assertEquals(200, response.getStatus().getCode());
+        Assertions.assertEquals("Hello World", response.getBody().orElse(null));
     }
+}
