@@ -46,4 +46,4 @@ jobs:
 
 
     - run: sam build --template-file /home/runner/work/HandsOn1/HandsOn1/github-actions-with-aws-sam/template_prod.yaml
-    - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name sam-hello-world-prod --s3-bucket awshandsononemzprod --capabilities CAPABILITY_IAM --region us-east-1
+    - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name sam-hello-world-prod --s3-bucket awshandsononeprod --capabilities CAPABILITY_IAM --region us-east-1
