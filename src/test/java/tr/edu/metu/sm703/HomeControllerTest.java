@@ -23,6 +23,6 @@ public class HomeControllerTest {
         HttpResponse<String> response = client.toBlocking().exchange(request, String.class);
 
         Assertions.assertEquals(200, response.getStatus().getCode());
-        Assertions.assertEquals("Home endpoint", response.getBody().orElse(null));
+        Assertions.assertEquals("Hello World", response.getBody().orElse(null));
     }
 }
