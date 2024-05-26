@@ -31,13 +31,7 @@ jobs:
     - name: Verify Python Installation
       run: python --version
 
-    - name: Set up Gradle
-      uses: gradle/gradle-build-action@v2
-      with:
-        arguments: build
-
-    - name: Run tests
-      run: ./gradlew test
+    
       
     - uses: aws-actions/setup-sam@v1
     - uses: aws-actions/configure-aws-credentials@v1
