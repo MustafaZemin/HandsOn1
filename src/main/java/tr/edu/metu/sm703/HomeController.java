@@ -9,6 +9,6 @@ public class HomeController {
 
     @Get("/")
     public String index() {
-        return "Home endpoint";
+        return "Hello World";
     }
 }
