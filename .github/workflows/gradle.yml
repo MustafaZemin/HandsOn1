@@ -10,11 +10,9 @@ name: Java CI with Gradle
 on: [push, pull_request]
 permissions:
   contents: read
-
+  id-token: write  # Required for OIDC
 jobs:
   build:
-
-
 
     runs-on: ubuntu-latest
 
