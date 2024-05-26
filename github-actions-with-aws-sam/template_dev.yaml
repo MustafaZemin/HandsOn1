@@ -33,39 +33,21 @@ Resources:
             Path: /hello
             Method: get
 
-  HelloWorldFunctionRoleDev:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: lambda.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: HelloWorldFunctionPolicy
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - 'logs:CreateLogGroup'
-                  - 'logs:CreateLogStream'
-                  - 'logs:PutLogEvents'
-                Resource: 'arn:aws:logs:*:*:*'
+
 
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
     Properties:
-      Name: !Sub ApplicationInsights-SAM-${AWS::StackName}
-      ResourceQuery:
+        Name:
+        Fn::Sub: ApplicationInsights-SAM-${AWS::StackName}
+        ResourceQuery:
         Type: CLOUDFORMATION_STACK_1_0
 
   ApplicationInsightsMonitoring:
     Type: AWS::ApplicationInsights::Application
     Properties:
-      ResourceGroupName: !Ref ApplicationResourceGroup
+      ResourceGroupName:
+        Ref: ApplicationResourceGroup
       AutoConfigurationEnabled: 'true'
 
 Outputs:
