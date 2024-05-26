@@ -26,6 +26,8 @@ Resources:
         - x86_64
       # Ensure the Role is defined and correctly referenced
       Role: !GetAtt HelloWorldFunctionRoleDev.Arn
+      # Ensure the Role is defined and correctly referenced
+      Role: !GetAtt HelloWorldFunctionRoleDev.Arn
       Events:
         HelloWorld:
           Type: Api
@@ -33,7 +35,27 @@ Resources:
             Path: /hello
             Method: get
 
-
+    HelloWorldFunctionRoleDev:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: HelloWorldFunctionPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource: 'arn:aws:logs:*:*:*'
 
   ApplicationResourceGroup:
     Type: AWS::ResourceGroups::Group
