@@ -9,6 +9,6 @@ public class HomeController {
 
     @Get("/")
     public String index() {
-        return "Hello World Production";
+        return "Hello World Production ";
     }
 }
