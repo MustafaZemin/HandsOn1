@@ -35,7 +35,7 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
       with:
-        role-to-assume: arn:aws:iam::637423376610:role/GitHubActionsRole
+        role-to-assume: arn:aws:iam::637423376610:role/GithubActionsUserRole
         aws-region: us-east-1
 
     - run: sam build --template-file /home/runner/work/HandsOn1/HandsOn1/github-actions-with-aws-sam/template.yaml
