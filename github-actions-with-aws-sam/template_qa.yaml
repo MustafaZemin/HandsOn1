@@ -26,6 +26,7 @@ Resources:
       Runtime: python3.8
       Architectures:
       - x86_64
+      Role: !GetAtt HelloWorldFunctionRoleQA.Arn
       Events:
         HelloWorld:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
@@ -56,6 +57,6 @@ Outputs:
   HelloWorldFunctionQA:
     Description: Hello World Lambda Function ARN
     Value: !GetAtt HelloWorldFunctionQA.Arn
-  HelloWorldFunctionIamRole:
-    Description: Implicit IAM Role created for Hello World function
-    Value: !GetAtt HelloWorldFunctionRole.Arn
+  HelloWorldFunctionRoleQA:
+    Description: IAM Role created for Hello World function in QA
+    Value: !GetAtt HelloWorldFunctionRoleQA.Arn
