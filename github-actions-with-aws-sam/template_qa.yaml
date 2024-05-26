@@ -67,7 +67,7 @@ Resources:
     Type: AWS::ApplicationInsights::Application
     Properties:
       ResourceGroupName:
-       	 Ref: ApplicationResourceGroup
+        Ref: ApplicationResourceGroup
 
       AutoConfigurationEnabled: 'true'
 
