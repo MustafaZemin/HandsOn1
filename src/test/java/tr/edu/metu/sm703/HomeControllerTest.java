@@ -22,7 +22,7 @@ public class HomeControllerTest {
         HttpRequest<String> request = HttpRequest.GET("/");
         HttpResponse<String> response = client.toBlocking().exchange(request, String.class);
 
-        Assertions.assertEquals(HttpStatus.OK, response.getStatus());
+        Assertions.assertEquals(200, response.getStatus().getCode());
         Assertions.assertEquals("Home endpoint", response.getBody().orElse(null));
     }
 }
