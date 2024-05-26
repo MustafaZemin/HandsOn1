@@ -40,3 +40,4 @@ public class HomeControllerTest {
         assertEquals(200, response.getStatusCode());
         assertEquals("{\"body\":\"{\\\"message\\\", \\\"Hello AWS World\\\"}\",\"statusCode\":200}",  response.getBody());
     }
+}
