@@ -8,7 +8,6 @@ import io.micronaut.http.client.annotation.Client;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
-
 import jakarta.inject.Inject;
 
 @MicronautTest
